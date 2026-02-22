@@ -9,6 +9,7 @@
 > 4. `CLAUDE.md` — a concise brief for AI pair programmers (Claude, GPT, etc.) so they can act consistently.
 > 5. `docs/tutorials/` — twenty TinyTorch test tutorials that explain the WHAT/HOW/WHY of every module suite.
 > 6. `docs/reports/tinytorch-test-summary.md` — the latest “20/20 modules green” evidence plus links to the verbose logs under `docs/reports/`.
+> 7. _Acknowledgement:_ Documentation updates and the orchestration of all 20 TinyTorch test runs were produced with **Codex CLI powered by gpt-5-codex medium** to keep instructions and evidence synchronized.
 >
 > Start with the [Documentation Map](#documentation-map) below and refer back whenever you pick up a new task.
 
