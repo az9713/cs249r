@@ -103,6 +103,7 @@ assignments/submitted/
 
 # Logs
 *.log
+docs/reports/*.txt
 
 # LaTeX build artifacts
 *.aux
