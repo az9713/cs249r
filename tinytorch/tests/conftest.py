@@ -33,6 +33,28 @@ os.environ['TINYTORCH_QUIET'] = '1'
 
 
 # =============================================================================
+# CLI / pytest option wiring
+# =============================================================================
+
+def pytest_addoption(parser):
+    """
+    Register TinyTorch-specific CLI flags so pytest accepts --tinytorch.
+    """
+    parser.addoption(
+        "--tinytorch",
+        action="store_true",
+        default=False,
+        help="Enable TinyTorch educational output (WHAT/WHY context).",
+    )
+    parser.addoption(
+        "--tinytorch-summary",
+        action="store_true",
+        default=False,
+        help="Force TinyTorch summary even without --tinytorch.",
+    )
+
+
+# =============================================================================
 # CRITICAL: Package Export Validation
 # =============================================================================
 # This runs BEFORE any tests to ensure the package is properly built.
@@ -123,6 +145,12 @@ def pytest_configure(config):
                 f"{'='*70}\n"
             )
 
+    tinytorch_enabled = bool(getattr(config.option, "tinytorch", False))
+    show_summary_flag = bool(getattr(config.option, "tinytorch_summary", False))
+    config._tinytorch_enabled = tinytorch_enabled
+    config._tinytorch_show_summary = tinytorch_enabled or show_summary_flag
+    _reporter.enabled = tinytorch_enabled and _reporter.use_rich
+
 # Import test utilities to make them available
 try:
     from test_utils import setup_integration_test, create_test_tensor, assert_tensors_close
@@ -182,6 +210,7 @@ class TinyTorchTestReporter:
         self.failed = 0
         self.skipped = 0
         self.use_rich = False
+        self.enabled = False
 
         try:
             from rich.console import Console
@@ -194,7 +223,7 @@ class TinyTorchTestReporter:
 
     def print_test_start(self, nodeid: str, docstring: Optional[str]):
         """Print when a test starts (only in verbose mode)."""
-        if not self.use_rich:
+        if not self.use_rich or not self.enabled:
             return
 
         # Extract test name
@@ -221,7 +250,7 @@ class TinyTorchTestReporter:
     def print_test_result(self, nodeid: str, outcome: str, docstring: Optional[str] = None,
                           longrepr=None):
         """Print test result with educational context."""
-        if not self.use_rich:
+        if not self.use_rich or not self.enabled:
             return
 
         parts = nodeid.split("::")
@@ -256,7 +285,7 @@ class TinyTorchTestReporter:
 
     def print_summary(self):
         """Print final summary."""
-        if not self.use_rich:
+        if not self.use_rich or not self.enabled:
             return
 
         total = self.passed + self.failed + self.skipped
@@ -276,6 +305,8 @@ _reporter = TinyTorchTestReporter()
 
 def pytest_collection_modifyitems(session, config, items):
     """Modify test collection to add educational metadata."""
+    if not getattr(config, "_tinytorch_enabled", False):
+        return
     for item in items:
         # Auto-detect module from path
         module = get_module_from_path(str(item.fspath))
@@ -290,6 +321,9 @@ def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
 
+    if not getattr(item.config, "_tinytorch_enabled", False):
+        return
+
     # Only process the "call" phase (not setup/teardown)
     if report.when == "call":
         # Get docstring from test function
@@ -301,9 +335,9 @@ def pytest_runtest_makereport(item, call):
 
 def pytest_terminal_summary(terminalreporter, exitstatus, config):
     """Add educational summary at the end of test run."""
-    # Check if we should show educational summary
-    if hasattr(config, '_tinytorch_show_summary') and config._tinytorch_show_summary:
-        _reporter.print_summary()
+    if not getattr(config, "_tinytorch_show_summary", False):
+        return
+    _reporter.print_summary()
 
 
 # =============================================================================
