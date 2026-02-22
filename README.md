@@ -55,6 +55,7 @@
 | **Learners** | [`docs/USERS.md`](docs/USERS.md) | Hand-holding quick start plus ten use cases (render a chapter, run TinyTorch modules, try a hardware lab). |
 | **Contributors** | [`docs/DEVELOPERS.md`](docs/DEVELOPERS.md) | Tool installation, binder/tito workflows, testing gates, release flows. |
 | **Architects** | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | ASCII diagrams showing how book, TinyTorch, labs, and automation communicate. |
+| **TinyTorch setup** | [`docs/TINYTORTCH_ONBOARDING.md`](docs/TINYTORTCH_ONBOARDING.md) | Step-by-step Windows/Git Bash instructions (venv, python3 alias, CLI setup, troubleshooting). |
 | **AI copilots (Claude/GPT/etc.)** | [`CLAUDE.md`](CLAUDE.md) | A single source of instructions the assistant must follow when helping on this project. |
 
 ### Quick Start Snapshot
