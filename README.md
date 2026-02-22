@@ -1,4 +1,5 @@
 # Machine Learning Systems
+> **Note:** This repository is a working clone of the upstream [cs249r_book](https://github.com/harvard-edge/cs249r_book) project (book source, TinyTorch, labs, kits). All changes here track back to that origin.
 *Principles and Practices of Engineering Artificially Intelligent Systems*
 
 > **New documentation hub (February 2026)** — This repository now includes a full onboarding suite so readers, contributors, and automation agents never get stuck. New in February:
