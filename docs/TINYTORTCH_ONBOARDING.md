@@ -108,6 +108,25 @@ Successful output ends with:
 
 If you encounter the “Python was not found” message again, confirm the alias or run through `python ./bin/tito ...`.
 
+### Install the TinyTorch package into your environment
+
+Phase 2 of the module tests uses a pytest plugin (`--tinytorch` flag). Pytest only knows that flag if the TinyTorch package is installed in the interpreter you are using. Do **one** of the following before running `tito module test`:
+
+1. **Use the CLI-managed venv**  
+   ```
+   source .venv/bin/activate      # inside tinytorch/.venv (Git Bash)
+   # or .\.venv\Scripts\Activate.ps1 (PowerShell, from tinytorch/.venv)
+   ```
+   When `tito setup` ran, it created this venv and installed TinyTorch+pytest plugins already.
+2. **Install TinyTorch into the repo root venv**  
+   Keep using the root `.venv`, but install the package there:
+   ```bash
+   cd C:/Users/simon/Downloads/cs249r_book-dev/tinytorch
+   pip install -e .[dev]
+   ```
+
+If you skip this step, `python ./bin/tito module test ...` will fail during Phase 2 with `error: unrecognized arguments: --tinytorch`.
+
 ---
 
 ## 5. Daily TinyTorch Commands
@@ -192,6 +211,7 @@ You can replace `python` with `./bin/tito` once you’ve defined the `python3` a
 | CLI can’t find the environment | Venv not active or created in wrong folder | Ensure `.venv` sits at repo root and run `source .venv/Scripts/activate` before commands. |
 | `./bin/tito` “Permission denied” | File lost executable bit during checkout | Run `chmod +x bin/tito` inside `tinytorch`. |
 | Quarto commands later complain about symlinks | Windows developer mode disabled | Enable Developer Mode or run Git Bash as admin once when binder CLI creates symlinks. |
+| Phase 2 tests fail with `--tinytorch` argument error | Pytest plugin not installed in current venv | Activate `tinytorch/.venv` **or** run `pip install -e .[dev]` inside `tinytorch/` for the root `.venv`. |
 
 ---
 
