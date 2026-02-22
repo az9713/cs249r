@@ -127,6 +127,7 @@ Artifacts (exports, checkpoints) are placed in `.tinytorch/` so the `milestone` 
 | Root unit tests | `pytest` | Uses configuration under `[tool.pytest.ini_options]` in `pyproject.toml:130-162` |
 | Book tooling | `pytest book/tests` | Validates Quarto helpers and YAML utilities |
 | TinyTorch modules | `pytest tests` (inside `tinytorch/`) | Covers 600+ tests referenced in `tinytorch/README.md` |
+| TinyTorch full suite (20 modules) | `cd tinytorch && .\.venv\Scripts\python.exe ./bin/tito module test --all --verbose` | Runs Phase 1–3 for Modules 01–20, streams WHAT/WHY context, and drops verbose logs under `docs/reports/moduleXX_<name>-test.log` plus the aggregate in `docs/reports/tinytorch-full-test-log.txt`. |
 | Static analysis | `pre-commit run --all-files` | Hooks defined in `.pre-commit-config.yaml` (root and tinytorch) |
 | Formatting | `black .` and `isort .` | Parameters also declared in `pyproject.toml:186-225` |
 | Security | `bandit -r book/tools` | Excludes directories listed in `[tool.bandit]` |
@@ -136,6 +137,8 @@ Artifacts (exports, checkpoints) are placed in `.tinytorch/` so the `milestone` 
 ```powershell
 python book/tools/scripts/maintenance/preflight.py   # entry point at book/tools/scripts/maintenance/preflight.py:40
 ```
+
+Need proof that the full TinyTorch curriculum is green? Re-run the command above (UTF-8-safe on Windows because `tinytorch/bin/tito` now forces `PYTHONIOENCODING=utf-8`) and consult `docs/reports/tinytorch-test-summary.md` for the latest pass/fail snapshot plus troubleshooting notes.
 
 ---
 

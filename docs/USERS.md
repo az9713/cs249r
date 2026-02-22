@@ -66,4 +66,14 @@ Do these in any order. Each one ends with a tangible outcome (rendered page, tra
 2. Read `docs/DEVELOPERS.md` if you want to contribute code or documentation.
 3. Join the community discussions listed near the top of `README.md` for real-time support.
 
+### TinyTorch Module Tutorials
+
+Working through the TinyTorch curriculum? Each module now has a dedicated tutorial that explains the WHAT/HOW/WHY of its test suite. Browse the folder and open the module you are on:
+
+```
+docs/tutorials/moduleXX_<topic>.md
+```
+
+For example, `docs/tutorials/module08_training.md` describes how `tinytorch/tests/08_training/test_training_core.py` is structured, what the Trainer is validating, and why those checks matter when you customize training loops. Use these write-ups as a companion to the notebooks whenever you need extra context.
+
 No matter what you do next, you already have ten concrete successes behind you—keep building!

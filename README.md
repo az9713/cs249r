@@ -1,12 +1,14 @@
 # Machine Learning Systems
 *Principles and Practices of Engineering Artificially Intelligent Systems*
 
-> **New documentation hub (February 2026)** — This repository now includes a full onboarding suite so readers, contributors, and automation agents never get stuck:
+> **New documentation hub (February 2026)** — This repository now includes a full onboarding suite so readers, contributors, and automation agents never get stuck. New in February:
 >
 > 1. `docs/USERS.md` — quick wins + ten step-by-step use cases for first-time users.
 > 2. `docs/DEVELOPERS.md` — workstation setup, binder/tito workflows, testing, and publishing checklists.
 > 3. `docs/ARCHITECTURE.md` — ASCII diagrams, communication flows, and file-level traceability for every subsystem.
 > 4. `CLAUDE.md` — a concise brief for AI pair programmers (Claude, GPT, etc.) so they can act consistently.
+> 5. `docs/tutorials/` — twenty TinyTorch test tutorials that explain the WHAT/HOW/WHY of every module suite.
+> 6. `docs/reports/tinytorch-test-summary.md` — the latest “20/20 modules green” evidence plus links to the verbose logs under `docs/reports/`.
 >
 > Start with the [Documentation Map](#documentation-map) below and refer back whenever you pick up a new task.
 
@@ -56,6 +58,8 @@
 | **Contributors** | [`docs/DEVELOPERS.md`](docs/DEVELOPERS.md) | Tool installation, binder/tito workflows, testing gates, release flows. |
 | **Architects** | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | ASCII diagrams showing how book, TinyTorch, labs, and automation communicate. |
 | **TinyTorch setup** | [`docs/TINYTORTCH_ONBOARDING.md`](docs/TINYTORTCH_ONBOARDING.md) | Step-by-step Windows/Git Bash instructions (venv, python3 alias, CLI setup, troubleshooting). |
+| **TinyTorch tutorials** | [`docs/tutorials/`](docs/tutorials) | Twenty module-by-module guides explaining the WHAT/HOW/WHY behind each test suite. |
+| **TinyTorch test summary** | [`docs/reports/tinytorch-test-summary.md`](docs/reports/tinytorch-test-summary.md) | Reproducible instructions and status log for the 20-module CLI test run. |
 | **AI copilots (Claude/GPT/etc.)** | [`CLAUDE.md`](CLAUDE.md) | A single source of instructions the assistant must follow when helping on this project. |
 
 ### Quick Start Snapshot

@@ -203,6 +203,25 @@ You can replace `python` with `./bin/tito` once you’ve defined the `python3` a
 
 ---
 
+## 11. Run the Complete 20-Module Test Suite
+
+After you can open the notebooks, validate the entire TinyTorch stack in one go. The CLI prints WHAT/WHY context for each Module 01–20 test phase and saves the transcripts for later audits.
+
+1. Activate the root `.venv` (see Section 2) and enter the TinyTorch folder:
+   ```powershell
+   cd C:\Users\simon\Downloads\cs249r_book-dev\tinytorch
+   ```
+2. Run every module with verbose output and stop on failure:
+   ```powershell
+   .\.venv\Scripts\python.exe ./bin/tito module test --all --verbose > ..\docs\reports\tinytorch-full-test-log.txt
+   ```
+   The CLI now forces UTF-8 output on Windows via `tinytorch/bin/tito`, so the Rich banner and emoji no longer throw `UnicodeEncodeError`. If you are using an older checkout or a custom entry point, you can achieve the same result by prefixing `python -X utf8`.
+3. Optional: capture per-module logs for students by rerunning each module with `--verbose` and redirecting to `docs/reports/moduleXX_<name>-test.log`. The summary document lives at `docs/reports/tinytorch-test-summary.md`.
+
+**Troubleshooting:** If you previously saw `UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f525'`, that was the Windows console refusing emojis. The fix is already in the shim (sets `PYTHONIOENCODING=utf-8`, `PYTHONUTF8=1`, and reconfigures `stdout`/`stderr`), but the fallback `python -X utf8 ./bin/tito ...` works in restricted shells.
+
+---
+
 ## 9. Troubleshooting Recap
 
 | Symptom | Cause | Fix |
