@@ -127,7 +127,64 @@ You can replace `python` with `./bin/tito` once you’ve defined the `python3` a
 
 ---
 
-## 6. Troubleshooting Recap
+## 6. TinyTorch Workflow Overview
+
+- **CLI entry point**: `tinytorch/bin/tito` sets UTF-8 output and delegates to `tinytorch/tito/main.py`, which registers commands such as `setup`, `module`, `milestone`, `dev`, `benchmark`, etc. Running `./bin/tito setup` creates `.tinytorch/`, validates Python dependencies, and prints module availability.
+- **Module notebooks**: Live under `tinytorch/src/<id_name>/<id_name>.py`. Each file is a Jupytext notebook combining Markdown explanations with executable cells (e.g., tensors `src/01_tensor/01_tensor.py`, autograd `src/06_autograd/06_autograd.py`, training `src/08_training/08_training.py`, attention `src/12_attention/12_attention.py`, quantization `src/15_quantization/15_quantization.py`). Modules import only previously completed capabilities.
+- **Tests**: Mirror modules under `tinytorch/tests/<id_name>/` with progressive and integration suites (e.g., `tests/08_training/test_training_core.py`, `tests/15_quantization/test_quantizer_core.py`). Use them after every change.
+- **CLI experiments**:
+  - `python ./bin/tito module start 01` — open Module 01 in your default editor/Jupyter server.
+  - `python ./bin/tito module test 06` — run module-specific tests.
+  - `python ./bin/tito module status` — summarize `.tinytorch/state.json`.
+  - `python ./bin/tito milestone status` — track larger achievements (CNN, GPT, MLPerf benchmarks described in `tinytorch/site/milestones/*.md`).
+  - `python ./bin/tito benchmark run mnist` — trigger reproducible experiments defined in `tinytorch/tito/commands/benchmark.py` (e.g., training the Module 09 CNN on MNIST).
+
+---
+
+## 7. Suggested Experiments
+
+1. **Tensor extensions** — Modify `src/01_tensor/01_tensor.py` to add broadcasting rules or new ops, then run `python ./bin/tito module test 01` and integration tests.
+2. **New activation** — Extend `src/02_activations/02_activations.py`, propagate through `src/03_layers/03_layers.py`, and update `tests/02_activations/test_activations_core.py`.
+3. **Scheduler tweaks** — Adjust `CosineSchedule` and `Trainer` (see `src/08_training/08_training.py:223` and `502`), validate via `python ./bin/tito module test 08`.
+4. **Attention variant** — Modify `MultiHeadAttention` in `src/12_attention/12_attention.py:691` for relative position bias or flash attention approximations; run `tests/12_attention/test_attention_core.py`.
+5. **Quantization research** — Extend the pipeline around `src/15_quantization/15_quantization.py:372` for per-channel scales or mixed precision; combine `module test 15` with profiling code in `src/14_profiling/14_profiling.py`.
+6. **Add a module** — Copy any existing module folder, rename files (`<id>_<name>.py`, `ABOUT.md`, `module.yaml`), register it in `tinytorch/tito/core/modules.py`, document it under `tinytorch/site/modules/`, and add matching tests.
+
+---
+
+## 8. Step-by-Step Workflow (Recap)
+
+1. **Environment setup**
+   - `cd C:\Users\simon\Downloads\cs249r_book-dev\tinytorch`
+   - `python -m venv ..\.venv` (then activate, install requirements)
+   - `python ./bin/tito setup`
+   - `python ./bin/tito system health`
+2. **Explore existing modules**
+   - `python ./bin/tito module list`
+   - `python ./bin/tito module start 01`
+   - `python ./bin/tito module test 01`
+   - Track with `module status` / `milestone status`
+3. **Run experiments**
+   - Example (attention): `python ./bin/tito module start 12`, modify `src/12_attention/12_attention.py`, run `module test 12` plus `pytest tinytorch/tests/integration/test_transformer_gradient_flow.py`. If you touch Trainer/optimizers, re-run Module 08 tests.
+4. **Add a new module**
+   - Duplicate a folder (e.g., `src/15_quantization` → `src/21_sparse_attention`)
+   - Update `module.yaml` prerequisites and `MODULES` metadata (`tinytorch/tito/core/modules.py`)
+   - Create tests under `tinytorch/tests/21_sparse_attention`
+   - Update site docs (optional but recommended)
+   - Verify with `module list`, `module start`, `module test`
+5. **Extend benchmarks / CLI commands**
+   - Add handlers in `tinytorch/tito/commands/benchmark.py`
+   - Register help text in the same file
+   - Document under `tinytorch/site/extra/benchmarks/` if needed
+   - Run via `python ./bin/tito benchmark run <name>`
+6. **Git Bash quirks**
+   - Alias `python3=python` or copy `python.exe` to `python3.exe`
+   - Enable Developer Mode or run Git Bash as admin to allow symlink creation (used by binder/kits workflows)
+   - Use Bash-style env vars (`export PYTHONIOENCODING=utf-8`) when following instructions originally written for PowerShell.
+
+---
+
+## 9. Troubleshooting Recap
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
@@ -138,7 +195,7 @@ You can replace `python` with `./bin/tito` once you’ve defined the `python3` a
 
 ---
 
-## 7. Ready for Experiments
+## 10. Ready for Experiments
 
 After completing these steps you can:
 
